@@ -1,24 +1,42 @@
+function generateStylesheet(){
+    let styles = `
+        #etchASketchHolder {
+            background-color:  gray;
+            border: 1px solid blue;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 40%;
+            height: 40%;
+            justify-content: center;
+        }
 
-const blockHolder = document.createElement('mainbody')
+        .block {
+            width: 40px;
+            height: 40px;
+            border: 1px solid red;
+            display: inline-block;
+        }
 
-document.body.appendChild(blockHolder);
+        }`
 
-const bb = document.getElementsByTagName('mainBody')
-
-bb.backgroundColor = '#666';
-bb.width = '50%';
-bb.height = '50%';
-
-let johnMadden = 20;
-
-
-for (let i = 0; i < johnMadden; i++) {
-    let a = document.createElement('mainbody.block'+i)
-    blockHolder.textContent = i;
-    blockHolder.appendChild(a)
-    let aa = document.getElementsByTagName('mainbody.block'+i)
-    aa.width = '20px';
-    aa.height = '20px';
-    console.log(a)
+    let styleSheet = document.createElement("style")
+    styleSheet.innerText = styles
+    document.head.appendChild(styleSheet)
 }
 
+generateStylesheet()
+
+const etchASketchHolder = document.createElement("div")
+etchASketchHolder.setAttribute('id','etchASketchHolder')
+document.body.appendChild(etchASketchHolder)
+
+let count=20 // this number will become var that will change as user sets it
+
+for (let i = 0; i < count+1; i++) {
+    let block = document.createElement("div");
+    block.setAttribute('class', 'block')
+    block.innerHTML = i;
+    etchASketchHolder.appendChild(block)
+}
+"https://jsfiddle.net/hQKy9/"

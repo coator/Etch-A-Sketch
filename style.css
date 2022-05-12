@@ -1,15 +1,17 @@
-aa {
+#etchASketchHolder {
     background-color:  'gray';
     border: '1px solid blue';
-    height: '40px';
-    width :'40px';
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 40%;
+    height: 40%;
+    padding: 20px;
+
 }
 
-bb {
-    background-color: blanchedalmond;
-    border: 2px dotted lightblue;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-
+.block {
+    width: 40px;
+    height: 40px;
+    border: 1px solid red;
 }
