@@ -1,5 +1,4 @@
 // https://www.youtube.com/watch?v=-5KAN9_CzSA
-aa
 function generateStylesheet(){
     let styles = `
         #topHolder{
@@ -88,38 +87,29 @@ function generateDivTop(){
 
 }
 
-
-generateStylesheet()
-generateDivTop()
+function generateStartGrid(){
+    function changeColor(obj){
+        randColor = 
+        obj.setAttribute('style', 'color: blue')} 
+    const gridLayout = 256+16;
+    for (let i = 0; i < gridLayout; i++) {
+        let block = document.createElement("div");
+        block.setAttribute('class', 'block');
+        ii = i%16;
+        block.innerHTML = i+' '+ii;
+        etchASketchHolder.appendChild(block);
+        block.addEventListener("mouseover", function() {
+            changeColor(block)
+        })
+    }
+}
 
 const etchASketchHolder = document.createElement("div")
 etchASketchHolder.setAttribute('id','etchASketchHolder')
 document.body.appendChild(etchASketchHolder)
+const selected = document.querySelector('#etchASketchHolder')
+const blocks = document.body.querySelectorAll('.block')
 
-
-
-function generateStartGrid(){
-const gridLayout = 256+16;
-    return gridLayout
-}
-
-
-let count=110
-count = generateStartGrid()
-             // this number will become var that will change as user sets it
-
-for (let i = 0; i < count; i++) {
-    let block = document.createElement("div");
-    block.setAttribute('class', 'block')
-    ii = i%16
-    block.innerHTML = i+' '+ii;
-    etchASketchHolder.appendChild(block)
-    
-}
-
-`if (count % 2 == 1){
-    iBlock = document.createElement('div')
-    iBlock.setAttribute('class', 'invisible')
-    etchASketchHolder.appendChild(iBlock)
-}`
-"https://jsfiddle.net/hQKy9/"
+generateStylesheet();
+generateDivTop();
+generateStartGrid();
