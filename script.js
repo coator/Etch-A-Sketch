@@ -89,8 +89,8 @@ function generateDivTop(){
 
 function generateStartGrid(){
     function changeColor(obj){
-        randColor = '"#'+String(Math.random()).slice(2,5)+'"'
-        console.log(randColor)
+        randColor = '"#'+String(Math.random()).slice(2,8)+'"'
+        console.log(randColor) // generates random number using Math.random(). Will need to work on.
         obj.setAttribute('style', `color: ${randColor}`)} 
     const gridLayout = 256+16;
     for (let i = 0; i < gridLayout; i++) {
