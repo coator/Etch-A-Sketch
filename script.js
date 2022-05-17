@@ -61,6 +61,46 @@ function generateStylesheet(){
             color:#fff;
             transition: background-color 2s, color 2s;
             }
+
+        .slideContainer {
+            width: 100%;
+            }
+
+        .slider {
+            -webkit-appearance: none; /* overrides default appearance*/
+            appearance: none;
+            width: 100%;
+            height: 25px;
+            background: #333333;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transistion: .2s;
+            transition: opacity .2s;
+            }
+
+        /* Mouse-over effects */
+        .slider:hover {
+            opacity: 1; /* Fully shown on mouse-over */
+            }
+        
+        /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none; /* Override default look */
+            appearance: none;
+            width: 25px; /* Set a specific slider handle width */
+            height: 25px; /* Slider handle height */
+            background: #04AA6D; /* Green background */
+            cursor: pointer; /* Cursor on hover */
+            }
+        
+        .slider::-moz-range-thumb {
+            width: 25px; /* Set a specific slider handle width */
+            height: 25px; /* Slider handle height */
+            background: #04AA6D; /* Green background */
+            cursor: pointer; /* Cursor on hover */
+            }
+
+
         }`
 
     let styleSheet = document.createElement("style")
@@ -112,8 +152,18 @@ sideBarHolder.setAttribute('id', 'sideBarHolder');
 document.body.appendChild(sideBarHolder)
 
 const links = document.createElement('span')
+const squareSlideBar =  document.createElement('squareSlideBar')
 links.innerHTML = '<td><b>cats are not food</b></td>'
 sideBarHolder.appendChild(links)
+var slider = document.getElementById(squareSlideBar);
+var output = document.getElementById("demo");
+output.innerHTML = slider.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+  output.innerHTML = this.value;
+} 
+sideBarHolder.innerHTML = "<a href=''>reset</a> <br /> <input type='range' min='1' max='100' value='50' class='slider' id='squareRange'>"
 
 const etchASketchHolder = document.createElement("div");
 etchASketchHolder.setAttribute('id','etchASketchHolder');
