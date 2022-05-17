@@ -1,65 +1,62 @@
 // https://www.youtube.com/watch?v=-5KAN9_CzSA
 function generateStylesheet(){
     let styles = `
-        #topHolder{
-            border: 1px solid black;
-            height: 45px;
-            width: 80%;
-            display: flex;
+
+        body {
+            background-color: #ffffff;
+        }
+
+        #bodyHolder {
+            display:flex;
             flex-direction: row;
-            padding: 5px;
-            margin: auto auto;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 16pt;
+            padding-top: 25px;
+            padding-left: 50px;
         }
 
-        .boxLeft {
-            width: 30%;
-            padding: 8px;
-            padding-left:40px;
-            left: 0px;
+        #sideBarHolder {
+            margin-left: 10%;
+            margin-right: -5%;
+            margin-top: 0px;
+            width: 300px;
+            height:400px;
+            border: 2px solid black;
+            background-color: #252525;
+            color: #898989;
+            font: 24px Arial, sans-serif;
+            padding: 15px 0px 15px 5px;
         }
-
-        .boxRight{
-            width: 70%;
-            padding: 8px;
-            padding-left:40px;
-            margin-right: 0px;
-        }
-
 
         #etchASketchHolder {
             margin: 0 auto;
-            background-color:  gray;
-            border: 1px solid blue;
+            background-color: #111111;
+            border: 1px solid black;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             width: 960px;
             height: 60%;
-            justify-content: center;
             padding: 15px;
             font-family: Arial, Helvetica, sans-serif;
-            margin-top: 50px;
             
         }
 
         .block {
-            width: 54px;
-            height: 54px;
+            background-color: black;
+            width: 48px;
+            height: 48px;
             border: 1px solid black;
             display: inline-block;
             transition: background-color 2s, color 2s;
             }    
 
         .invisible {
-            width: 60px;
-            height: 60px;
+            width: 54px;
+            height: 54px;
             display: inline-block;
             background-color: gray;
             }
         
-            .block:hover{
+        .block:hover{
             background-color:#000;
             color:#fff;
             transition: background-color 2s, color 2s;
@@ -83,34 +80,43 @@ function generateDivTop(){
     topHolder.appendChild(topHolderLeft)
     topHolderRight.textContent = 'etch-a-sketch'
     topHolder.appendChild(topHolderRight)
-
-
 }
+
+function rndHexGenerator(){
+    colorStr = '0123456789ABCDEF';
+    let randColor = '#'
+    for (let i = 0; i < 6; ++i) randColor = randColor + colorStr[Math.round(Math.random()*15)]
+    return randColor}
 
 function generateStartGrid(){
     function changeColor(obj){
-        randColor = '"#'+String(Math.random()).slice(2,8)+'"'
-        console.log(randColor) // generates random number using Math.random(). Will need to work on.
-        obj.setAttribute('style', `color: ${randColor}`)} 
-    const gridLayout = 256+16;
+        // math to help determine waht color should be
+        obj.setAttribute('style', `background-color: ${rndHexGenerator()}`)} 
+    const gridLayout = 285;
     for (let i = 0; i < gridLayout; i++) {
         let block = document.createElement("div");
         block.setAttribute('class', 'block');
-        ii = i%16;
-        block.innerHTML = i+' '+ii;
-        etchASketchHolder.appendChild(block);
         block.addEventListener("mouseover", function() {
-            changeColor(block)
-        })
+            changeColor(block)})
+        etchASketchHolder.appendChild(block);
     }
 }
 
-const etchASketchHolder = document.createElement("div")
-etchASketchHolder.setAttribute('id','etchASketchHolder')
+
+const bodyHolder= document.createElement('div');
+bodyHolder.setAttribute('id', 'bodyHolder');
+document.body.appendChild(bodyHolder)
+
+const sideBarHolder = document.createElement('div');
+sideBarHolder.setAttribute('id', 'sideBarHolder');
+sideBarHolder.textContent = 'johnmadden johnmadden johnmadden johnmadden johnmadden johnmadden johnmadden johnmadden '
+
+const etchASketchHolder = document.createElement("div");
+etchASketchHolder.setAttribute('id','etchASketchHolder');
 document.body.appendChild(etchASketchHolder)
-const selected = document.querySelector('#etchASketchHolder')
-const blocks = document.body.querySelectorAll('.block')
+
+bodyHolder.appendChild(sideBarHolder)
+bodyHolder.appendChild(etchASketchHolder)
 
 generateStylesheet();
-generateDivTop();
 generateStartGrid();
