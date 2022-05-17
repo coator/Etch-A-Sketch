@@ -109,7 +109,11 @@ document.body.appendChild(bodyHolder)
 
 const sideBarHolder = document.createElement('div');
 sideBarHolder.setAttribute('id', 'sideBarHolder');
-sideBarHolder.textContent = 'johnmadden johnmadden johnmadden johnmadden johnmadden johnmadden johnmadden johnmadden '
+document.body.appendChild(sideBarHolder)
+
+const links = document.createElement('span')
+links.innerHTML = '<td><b>cats are not food</b></td>'
+sideBarHolder.appendChild(links)
 
 const etchASketchHolder = document.createElement("div");
 etchASketchHolder.setAttribute('id','etchASketchHolder');
