@@ -134,8 +134,15 @@ function insertSlideBar(divParent){
     slideBar.setAttribute('type','range');
     slideBar.setAttribute('min','1');
     slideBar.setAttribute('max','100');
-    slideBar.innerHTML = "<a href=''>reset</a> <br />";
+
+    const slideBarReset = document.createElement('a')
+    const values = {href:'' , id:'slideBarReset'}
+    for (const key in values){
+        slideBarReset.setAttribute(`${key}`,`${values[key]}`)
+    }
     divParent.appendChild(slideBar)
+    divParent.appendChild(slideBarReset)
+
     let slider = document.getElementById('myRange');
     slideBar.addEventListener('click', function() {
         console.log(slider.value)
