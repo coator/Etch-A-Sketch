@@ -45,8 +45,8 @@ function generateStylesheet(){
             border: 1px solid black;
             display: inline-block;
             transition: background-color 2s, color 2s;
-            width:48px;
-            height:48px;
+            width: 48px;
+            height: 48px;
             }    
 
         .invisible {
@@ -122,6 +122,11 @@ function generateStartGrid(){
         let block = document.createElement("div");  
         block.addEventListener("mouseover", function() {changeColor(block)});
         block.setAttribute('class','block');
+        block.style.width="48px";
+        block.style.height="48px";
+        block.setAttribute('width','48px');
+        block.setAttribute('height','48px');
+        block.setAttribute('style','width:48px; height:48px');
         etchASketchHolder.appendChild(block);
     }}
 
