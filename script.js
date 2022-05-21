@@ -32,14 +32,8 @@ function generateStylesheet(){
             width: 960px;
             height: 750px;
             padding: 15px;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        #etchASketchHolder{
-            width:100%;
-            height:100%
-        }
-
+            font-family: Arial, Helvetica, sans-serif;}
+           
         .block {
             background-color: black;
             border: 1px solid black;
@@ -130,8 +124,8 @@ function initializeStartGrid(div){
 
 function generateGrid(newValue){
     let gridLayout = 285;
-    let sizeObj = [36,48,64,81,100,121,144,169,225,256]
-    gridLayout = sizeObj[newValue]
+    let sizeObj = [36,48,64,81,100,121,144,169,225,256];
+    gridLayout = sizeObj[newValue];
     //Procedure used to clear out old block layout
     const parent = document.getElementById('etchASketchHolder') 
     while (parent.firstChild){
