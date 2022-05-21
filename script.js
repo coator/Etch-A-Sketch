@@ -14,7 +14,6 @@ function generateStylesheet(){
         }
 
         #sideBarHolder {
-            margin-left: 10%;
             margin-right: -5%;
             margin-top: 0px;
             width: 300px;
@@ -26,18 +25,19 @@ function generateStylesheet(){
             padding: 30px 15px 15px 5px;
         }
 
-        #etchASketchHolder {
+        #rightBodyHolder {
             margin: 0 auto;
             background-color: #111111;
             border: 1px solid black;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
             width: 960px;
             height: 750px;
             padding: 15px;
             font-family: Arial, Helvetica, sans-serif;
-            
+        }
+
+        #etchASketchHolder{
+            width:100%;
+            height:100%
         }
 
         .block {
@@ -103,31 +103,25 @@ function generateStylesheet(){
     document.head.appendChild(styleSheet)
 }
 
-// generates the hexidecimal six color string for the random color
-function rndHexGenerator(){
-    colorStr = '0123456789ABCDEF';
-    let randColor = '#'
-    for (let i = 0; i < 6; ++i) randColor = randColor + colorStr[Math.round(Math.random()*15)]
-    return randColor
-    }
-
-function changeColor(obj){  // math to help determine waht color should be
-    obj.setAttribute('style', `background-color: ${rndHexGenerator()}`)}   
+function changeColor(obj, size){  // math to help determine waht color should be
+    // generates the hexidecimal six color string for the random color
+    function rndHexGenerator(){
+        colorStr = '0123456789ABCDEF';
+        let randColor = '#'
+        for (let i = 0; i < 6; ++i) randColor = randColor + colorStr[Math.round(Math.random()*15)]
+        return randColor
+        }
+    obj.setAttribute('style', `background-color: ${rndHexGenerator()}`)}
 
 
 // creates initial 285 15x19 grid 960x750
-function generateStartGrid(){
+function initializeStartGrid(div){
     let gridLayout = 285;
     for (let i = 0; i < gridLayout; i++) {
         let block = document.createElement("div");  
-        block.addEventListener("mouseover", function() {changeColor(block)});
+        block.addEventListener("mouseover", function() {changeColor(block, '48px')});
         block.setAttribute('class','block');
-        block.style.width="48px";
-        block.style.height="48px";
-        block.setAttribute('width','48px');
-        block.setAttribute('height','48px');
-        block.setAttribute('style','width:48px; height:48px');
-        etchASketchHolder.appendChild(block);
+        div.appendChild(block);
     }}
 
  //let values = {class:'block',width:'48px',height:'48px'};
@@ -136,21 +130,18 @@ function generateStartGrid(){
 
 function generateGrid(newValue){
     let gridLayout = 285;
-    let sizeObj = [48,40,36,32,30,27,24,20,16,12]
-    let sizeObjStr = ['48px','40px','36px','32px','30px','27px','24px','20px','16px','12px']
-    newBlockSize =sizeObj[newValue]*sizeObj[newValue]
-    gridLayout = (960*750) / (sizeObj[newValue]*sizeObj[newValue])
+    let sizeObj = [36,48,64,81,100,121,144,169,225,256]
+    gridLayout = sizeObj[newValue]
+    //Procedure used to clear out old block layout
     const parent = document.getElementById('etchASketchHolder') 
     while (parent.firstChild){
         parent.removeChild(parent.firstChild);}
-    console.log(gridLayout)
+    // end procedure
+    // start procedure to append new blocks
     for (let i = 0; i < gridLayout; i++) {
         let block = document.createElement("div");  
         block.addEventListener("mouseover", function() {changeColor(block)});
         block.setAttribute('class','block');
-        console.log(sizeObjStr[newValue])
-        block.style.width=`${sizeObjStr[newValue]}`
-        block.style.height=`${sizeObjStr[newValue]}`
         etchASketchHolder.appendChild(block); }
 }
 
@@ -180,7 +171,7 @@ function insertSlideBar(divParent){ // sliderbar allows adjustment of the grid s
 }
 
 
-function createLayout(){ // generates bodyHolder (holds sidebar and etchASketch grid) as well as sideBarHolder and etchASketch
+function createLayout(){ // generates bodyHolder (holds sidebar and rightBodyHolder grid) as well as sideBarHolder and rightBodyHolder
     const bodyHolder= document.createElement('div');
     bodyHolder.setAttribute('id', 'bodyHolder');
     document.body.appendChild(bodyHolder)
@@ -191,15 +182,19 @@ function createLayout(){ // generates bodyHolder (holds sidebar and etchASketch 
 
     const links = document.createElement('span')
 
-    const etchASketchHolder = document.createElement("div");
-    etchASketchHolder.setAttribute('id','etchASketchHolder');
-    document.body.appendChild(etchASketchHolder)
+    const rightBodyHolder = document.createElement("div");
+    rightBodyHolder.setAttribute('id','rightBodyHolder');
+    document.body.appendChild(rightBodyHolder)
+
+    const etchASketchHolder = document.createElement('div');
+    etchASketchHolder.setAttribute('id','etchASketchHolder')
+    rightBodyHolder.appendChild(etchASketchHolder)
 
     bodyHolder.appendChild(sideBarHolder)
     insertSlideBar(sideBarHolder)
-    bodyHolder.appendChild(etchASketchHolder)
+    bodyHolder.appendChild(rightBodyHolder)
 }
 
 generateStylesheet();
 createLayout();
-generateStartGrid();
+initializeStartGrid(etchASketchHolder);
