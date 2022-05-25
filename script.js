@@ -33,10 +33,24 @@ function generateStylesheet(){
             height: 750px;
             padding: 15px;
             font-family: Arial, Helvetica, sans-serif;}
-           
+            display:flex;
+            align-content: center;
+            justify-content: center;
+        }
+
+        #etchASketchHolder{
+            display: flex;
+            width:100%;
+            height:100%;
+        }
+
+        .row {
+            height: 100%;
+            width: 100%
+        }
+
         .block {
             background-color: black;
-            border: 1px solid black;
             display: inline-block;
             transition: background-color 2s, color 2s;
             width: 48px;
@@ -106,6 +120,26 @@ function changeColor(obj, size){  // math to help determine waht color should be
         return randColor
         }
     obj.setAttribute('style', `background-color: ${rndHexGenerator()}`)}
+
+function initializeStartGridWithRows(blockSize){
+    const gridHeight = 750;
+    rowCount = Math.floor(gridHeight/blockSize);
+    blockCount = Math.floor(960/blockSize)
+    for (let i=0; i < rowCount; i++){
+        console.log('i is '+i)
+        let row = document.createElement('div');
+        row.setAttribute('class', 'row');
+        row.setAttribute('style','height: '+blockSize+'px')
+        etchASketchHolder.appendChild(row);
+        for (let j=0; j < blockCount; j++){
+            console.log(j)
+            let block = document.createElement("div");  
+            block.addEventListener("mouseover", function() {changeColor(block, '48px')});
+            block.setAttribute('class','block');
+            row.appendChild(block);
+        }
+    }
+}    
 
 
 // creates initial 285 15x19 grid 960x750
