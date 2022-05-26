@@ -1,4 +1,4 @@
-// adds stylesheet fom var styles
+
 function generateCSS(){
     let styles = `
 
@@ -32,7 +32,7 @@ function generateCSS(){
             border-top: 1px solid black;
             border-right: 1px solid black;
             width: 960px;
-            height: 625px;
+            height: 626px;
             font-family: Arial, Helvetica, sans-serif;}
         }
 
@@ -51,8 +51,6 @@ function generateCSS(){
             background-color: black;
             display: inline-block;
             transition: background-color 2s, color 2s;
-            width: 48px;
-            height: 48px;
             }    
 
         .invisible {
@@ -117,24 +115,36 @@ function changeColor(obj, size){  // math to help determine waht color should be
         for (let i = 0; i < 6; ++i) randColor = randColor + colorStr[Math.round(Math.random()*15)]
         return randColor
         }
-    obj.setAttribute('style', `background-color: ${rndHexGenerator()}`)
+    obj.setAttribute('style', `background-color: ${rndHexGenerator()};
+                    height: ${blockSizeHTMLAttr};
+                    width: ${blockSizeHTMLAttr}`)
 }
 
-function initializeStartGridWithRows(blockPixelSize){
-    const gridHeight = 624;
-    blockSizeHTMLAttr = blockPixelSize+'px'
-    let rowCount = Math.floor(gridHeight/blockPixelSize);
-    let blockCount = Math.floor(960/blockPixelSize);
-    for (let i=0; i < rowCount; i++){
+
+// reworking to change blockPixelSize variable to take Number of blocks in a row.
+// need to calculate blocks in square based on amount of blocks in a single row.
+function initializeStartGridWithRows(blockAmount){
+    const gridHeight = 625;
+    const gridWidth = 960;
+    blockSideLength = (Math.floor(gridHeight/blockAmount))
+    // rowWidth subtracts remainder of block that does not fit in column from total column size 
+    const rowWidth = 960-Math.round((gridHeight/blockAmount-blockSideLength)*960)
+    console.log(rowWidth)
+    blockSizeHTMLAttr = blockSideLength+'px'
+    let rowsPerGrid = Math.floor(gridHeight/blockSideLength);
+    let blocksPerRow = Math.floor(gridWidth/blockSideLength);
+    for (let i=0; i < rowsPerGrid; i++){
         let row = document.createElement('div');
         row.setAttribute('class', 'row');
-        row.setAttribute('style','height: '+blockSizeHTMLAttr+
-                        ';width: 960px');
+        row.setAttribute('style',`height: ${blockSizeHTMLAttr}
+                        ; width: ${rowWidth}px`);
         etchASketchHolder.appendChild(row);
-        for (let j=0; j < blockCount; j++){
+        for (let j=0; j < blocksPerRow; j++){
             let block = document.createElement("div");  
             block.addEventListener("mouseover", function() {changeColor(block, blockSizeHTMLAttr)});
             block.setAttribute('class','block');
+            block.setAttribute('style','height: '+blockSizeHTMLAttr+
+                               ';width:'+ blockSizeHTMLAttr);
             row.appendChild(block);
         }
     }
