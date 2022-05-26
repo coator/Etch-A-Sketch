@@ -1,5 +1,5 @@
 // adds stylesheet fom var styles
-function generateStylesheet(){
+function generateCSS(){
     let styles = `
 
         body {
@@ -120,12 +120,10 @@ function changeColor(obj, size){  // math to help determine waht color should be
     obj.setAttribute('style', `background-color: ${rndHexGenerator()}`)
 }
 
-
 function initializeStartGridWithRows(blockPixelSize){
-    const gridHeight = 750;
+    const gridHeight = 624;
     blockSizeHTMLAttr = blockPixelSize+'px'
     let rowCount = Math.floor(gridHeight/blockPixelSize);
-    rowCount = 13;
     let blockCount = Math.floor(960/blockPixelSize);
     for (let i=0; i < rowCount; i++){
         let row = document.createElement('div');
@@ -141,21 +139,6 @@ function initializeStartGridWithRows(blockPixelSize){
         }
     }
 }    
-
-
-// creates initial 285 15x19 grid 960x750
-function initializeStartGrid(div){
-    let gridLayout = 285;
-    for (let i = 0; i < gridLayout; i++) {
-        let block = document.createElement("div");  
-        block.addEventListener("mouseover", function() {changeColor(block, '48px')});
-        block.setAttribute('class','block');
-        div.appendChild(block);
-    }}
-
- //let values = {class:'block',width:'48px',height:'48px'};
- //       for (const key in values){ 
- //           block.setAttribute(`${key}`,`${values[key]}`)};
 
 function generateGrid(newValue){
     let gridLayout = 285;
@@ -209,8 +192,6 @@ function createLayout(){ // generates bodyHolder (holds sidebar and rightBodyHol
     sideBarHolder.setAttribute('id', 'sideBarHolder');
     document.body.appendChild(sideBarHolder)
 
-    const links = document.createElement('span')
-
     const rightBodyHolder = document.createElement('div');
     rightBodyHolder.setAttribute('id','rightBodyHolder');
     document.body.appendChild(rightBodyHolder)
@@ -224,6 +205,6 @@ function createLayout(){ // generates bodyHolder (holds sidebar and rightBodyHol
     bodyHolder.appendChild(rightBodyHolder)
 }
 
-generateStylesheet();
+generateCSS();
 createLayout();
 initializeStartGridWithRows(48)
