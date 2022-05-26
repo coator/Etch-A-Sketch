@@ -9,14 +9,13 @@ function generateStylesheet(){
         #bodyHolder {
             display:flex;
             flex-direction: row;
-            padding-top: 25px;
+            padding-top: 15px;
             padding-left: 50px;
         }
 
         #sideBarHolder {
-            margin-right: -5%;
             margin-top: 0px;
-            width: 300px;
+            min-width:300px;
             height:400px;
             border: 10px solid #111111;
             background-color: #252525;
@@ -26,16 +25,15 @@ function generateStylesheet(){
         }
 
         #rightBodyHolder {
-            margin: 0 auto;
+            margin-left: 100px;
+            display: border-box;
             background-color: #111111;
-            border: 1px solid black;
+            border-left: 1px solid black;
+            border-top: 1px solid black;
+            border-right: 1px solid black;
             width: 960px;
-            height: 750px;
-            padding: 15px;
+            height: 625px;
             font-family: Arial, Helvetica, sans-serif;}
-            display:flex;
-            align-content: center;
-            justify-content: center;
         }
 
         #etchASketchHolder{
@@ -119,22 +117,25 @@ function changeColor(obj, size){  // math to help determine waht color should be
         for (let i = 0; i < 6; ++i) randColor = randColor + colorStr[Math.round(Math.random()*15)]
         return randColor
         }
-    obj.setAttribute('style', `background-color: ${rndHexGenerator()}`)}
+    obj.setAttribute('style', `background-color: ${rndHexGenerator()}`)
+}
 
-function initializeStartGridWithRows(blockSize){
+
+function initializeStartGridWithRows(blockPixelSize){
     const gridHeight = 750;
-    rowCount = Math.floor(gridHeight/blockSize);
-    blockCount = Math.floor(960/blockSize)
+    blockSizeHTMLAttr = blockPixelSize+'px'
+    let rowCount = Math.floor(gridHeight/blockPixelSize);
+    rowCount = 13;
+    let blockCount = Math.floor(960/blockPixelSize);
     for (let i=0; i < rowCount; i++){
-        console.log('i is '+i)
         let row = document.createElement('div');
         row.setAttribute('class', 'row');
-        row.setAttribute('style','height: '+blockSize+'px')
+        row.setAttribute('style','height: '+blockSizeHTMLAttr+
+                        ';width: 960px');
         etchASketchHolder.appendChild(row);
         for (let j=0; j < blockCount; j++){
-            console.log(j)
             let block = document.createElement("div");  
-            block.addEventListener("mouseover", function() {changeColor(block, '48px')});
+            block.addEventListener("mouseover", function() {changeColor(block, blockSizeHTMLAttr)});
             block.setAttribute('class','block');
             row.appendChild(block);
         }
@@ -210,7 +211,7 @@ function createLayout(){ // generates bodyHolder (holds sidebar and rightBodyHol
 
     const links = document.createElement('span')
 
-    const rightBodyHolder = document.createElement("div");
+    const rightBodyHolder = document.createElement('div');
     rightBodyHolder.setAttribute('id','rightBodyHolder');
     document.body.appendChild(rightBodyHolder)
 
@@ -225,4 +226,4 @@ function createLayout(){ // generates bodyHolder (holds sidebar and rightBodyHol
 
 generateStylesheet();
 createLayout();
-initializeStartGrid(etchASketchHolder);
+initializeStartGridWithRows(48)
