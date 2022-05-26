@@ -1,4 +1,4 @@
-
+"use strict"
 function generateCSS(){
     let styles = `
 
@@ -38,7 +38,7 @@ function generateCSS(){
 
         .row {
             height: 100%;
-            width: 100%
+            width: 100%;
         }
 
         .block {
@@ -101,36 +101,30 @@ function generateCSS(){
     document.head.appendChild(styleSheet)
 }
 
-function changeColor(obj, size){ 
-    // generates the hexidecimal six color string for the random color
-    function rndHexGenerator(){
-        colorStr = '0123456789ABCDEF';
-        let randColor = '#'
-        for (let i = 0; i < 6; ++i) randColor = randColor + colorStr[Math.round(Math.random()*15)]
-        return randColor
-        }
-    obj.setAttribute('style', `background-color: ${rndHexGenerator()};
-                    height: ${blockSizeHTMLAttr};
-                    width: ${blockSizeHTMLAttr}`)
-}
 
-
-function initializeStartGridWithRows(blockAmount){
+function initializeGrid(blockAmount){
+    function returnDecimal(a,b){
+        // returns number with last two decimal places 
+        return (Math.round((a/b)*100))/100;}
+    function returnRemainderDec(a,b){
+        let c =  (Math.round((a%b)*100))/100;
+        console.log('remainder of decimal is '+c+' block size is '+blockAmount);
+        return c}
     const gridHeight = 625;
     const gridWidth = 960;
-    blockSideLength = (Math.floor(gridHeight/blockAmount))
+    let squareSideLen = returnDecimal(gridHeight,blockAmount);
     // rowWidth subtracts remainder of blockLength that does not fit in a column from the total column size 
-    const rowWidth = gridWidth-Math.round(gridWidth%blockAmount)
-    blockSizeHTMLAttr = blockSideLength+'px'
-    let rowsPerGrid = Math.floor(gridHeight/blockSideLength);
-    let blocksPerRow = Math.floor(gridWidth/blockSideLength);
-    for (let i=0; i < rowsPerGrid; i++){
+    const rowWidth = gridWidth-returnRemainderDec(gridWidth,blockAmount);
+    let blockSizeHTMLAttr = squareSideLen+'px';
+    let rowsPerGrid = returnDecimal(gridHeight,squareSideLen);
+    let blocksPerRow = returnDecimal(gridWidth,squareSideLen);
+    for (let i=0; i <= rowsPerGrid; i++){
         let row = document.createElement('div');
         row.setAttribute('class', 'row');
-        row.setAttribute('style',`height: ${blockSizeHTMLAttr}
+        row.setAttribute('style',`height: ${blockSizeHTMLAttr};
                         ; width: ${rowWidth}px`);
         etchASketchHolder.appendChild(row);
-        for (let j=0; j < blocksPerRow; j++){
+        for (let j=0; j <= blocksPerRow; j++){
             let block = document.createElement("div");  
             block.addEventListener("mouseover", function() {changeColor(block, blockSizeHTMLAttr)});
             block.setAttribute('class','block');
@@ -142,20 +136,28 @@ function initializeStartGridWithRows(blockAmount){
 }    
 
 function generateGrid(newValue){
-    let gridLayout = 285;
-    let sizeObj = [36,48,64,81,100,121,144,169,225,256];
-    gridLayout = sizeObj[newValue];
+    let sizeObj = [5,15,25,35,48,55,65,75,85,95,100];
+    let gridLayout = sizeObj[newValue];
+    console.log(gridLayout)
     //Procedure used to clear out old block layout
     const parent = document.getElementById('etchASketchHolder') 
     while (parent.firstChild){
         parent.removeChild(parent.firstChild);}
-    // end procedure
     // start procedure to append new blocks
-    for (let i = 0; i < gridLayout; i++) {
-        let block = document.createElement("div");  
-        block.addEventListener("mouseover", function() {changeColor(block)});
-        block.setAttribute('class','block');
-        etchASketchHolder.appendChild(block); }
+    initializeGrid(gridLayout)
+}
+
+function changeColor(obj, size){ 
+    // generates the hexidecimal six color string for the random color
+    function rndHexGenerator(){
+        let colorStr = '0123456789ABCDEF';
+        let randColor = '#'
+        for (let i = 0; i < 6; ++i) randColor = randColor + colorStr[Math.round(Math.random()*15)]
+        return randColor
+        }
+    obj.setAttribute('style', `background-color: ${rndHexGenerator()};
+                    height: ${size};
+                    width: ${size}`)
 }
 
 
@@ -163,7 +165,7 @@ function insertSlideBar(divParent){ // sliderbar allows adjustment of the grid s
     const slideBar =  document.createElement('input');
     // initialize slide bar
     let values= {class:'slider',
-                id:'BlockSizeRange',
+                id:'blockSizeRange',
                 type:'range',
                 min:'1',
                 max:'10'};     
@@ -179,10 +181,9 @@ function insertSlideBar(divParent){ // sliderbar allows adjustment of the grid s
     slideBarReset.innerHTML='reset'
     divParent.appendChild(slideBarReset)
 
-    let slider = document.getElementById('BlockSizeRange');
-
+    let sliderVar = document.getElementById('blockSizeRange');
     slideBar.addEventListener('click', function() {
-        generateGrid(slider.value)
+        generateGrid(sliderVar.value)
     })
 }
 
@@ -212,4 +213,4 @@ function createLayout(){ // generates bodyHolder (holds sidebar and rightBodyHol
 
 generateCSS();
 createLayout();
-initializeStartGridWithRows(48)
+initializeGrid(48)
