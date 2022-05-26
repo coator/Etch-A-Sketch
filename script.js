@@ -26,20 +26,14 @@ function generateCSS(){
 
         #rightBodyHolder {
             margin-left: 100px;
-            display: border-box;
-            background-color: #111111;
-            border-left: 1px solid black;
-            border-top: 1px solid black;
-            border-right: 1px solid black;
+            background-color: #fff;
             width: 960px;
             height: 626px;
             font-family: Arial, Helvetica, sans-serif;}
         }
 
         #etchASketchHolder{
-            display: flex;
-            width:100%;
-            height:100%;
+            background-color: #222
         }
 
         .row {
@@ -107,7 +101,7 @@ function generateCSS(){
     document.head.appendChild(styleSheet)
 }
 
-function changeColor(obj, size){  // math to help determine waht color should be
+function changeColor(obj, size){ 
     // generates the hexidecimal six color string for the random color
     function rndHexGenerator(){
         colorStr = '0123456789ABCDEF';
@@ -121,15 +115,12 @@ function changeColor(obj, size){  // math to help determine waht color should be
 }
 
 
-// reworking to change blockPixelSize variable to take Number of blocks in a row.
-// need to calculate blocks in square based on amount of blocks in a single row.
 function initializeStartGridWithRows(blockAmount){
     const gridHeight = 625;
     const gridWidth = 960;
     blockSideLength = (Math.floor(gridHeight/blockAmount))
-    // rowWidth subtracts remainder of block that does not fit in column from total column size 
-    const rowWidth = 960-Math.round((gridHeight/blockAmount-blockSideLength)*960)
-    console.log(rowWidth)
+    // rowWidth subtracts remainder of blockLength that does not fit in a column from the total column size 
+    const rowWidth = gridWidth-Math.round(gridWidth%blockAmount)
     blockSizeHTMLAttr = blockSideLength+'px'
     let rowsPerGrid = Math.floor(gridHeight/blockSideLength);
     let blocksPerRow = Math.floor(gridWidth/blockSideLength);
@@ -170,22 +161,25 @@ function generateGrid(newValue){
 
 function insertSlideBar(divParent){ // sliderbar allows adjustment of the grid size
     const slideBar =  document.createElement('input');
+    // initialize slide bar
     let values= {class:'slider',
-                id:'myRange',
+                id:'BlockSizeRange',
                 type:'range',
                 min:'1',
                 max:'10'};     
     for (const key in values){
         slideBar.setAttribute(`${key}`,`${values[key]}`)}
+    divParent.appendChild(slideBar)
+
+    // initialize slide bar reset button
     const slideBarReset = document.createElement('a')
     values = {href:'' , id:'slideBarReset'}
     for (const key in values){
         slideBarReset.setAttribute(`${key}`,`${values[key]}`)}
     slideBarReset.innerHTML='reset'
-    divParent.appendChild(slideBar)
     divParent.appendChild(slideBarReset)
 
-    let slider = document.getElementById('myRange');
+    let slider = document.getElementById('BlockSizeRange');
 
     slideBar.addEventListener('click', function() {
         generateGrid(slider.value)
@@ -208,6 +202,7 @@ function createLayout(){ // generates bodyHolder (holds sidebar and rightBodyHol
 
     const etchASketchHolder = document.createElement('div');
     etchASketchHolder.setAttribute('id','etchASketchHolder')
+    etchASketchHolder.setAttribute('style','height: 626px');
     rightBodyHolder.appendChild(etchASketchHolder)
 
     bodyHolder.appendChild(sideBarHolder)
