@@ -3,13 +3,13 @@ function generateCSS(){
     let styles = `
 
         body {
-            background-color: #ffffff;
+            background-color: #333;
         }
 
         #bodyHolder {
             display:flex;
             flex-direction: row;
-            padding-top: 15px;
+            padding-top: 5px;
             padding-left: 50px;
         }
 
@@ -26,9 +26,9 @@ function generateCSS(){
 
         #rightBodyHolder {
             margin-left: 100px;
-            background-color: #fff;
+            background-color: #000;
             width: 960px;
-            height: 626px;
+            height: 670px;
             font-family: Arial, Helvetica, sans-serif;}
         }
 
@@ -46,13 +46,6 @@ function generateCSS(){
             display: inline-block;
             transition: background-color 2s, color 2s;
             }    
-
-        .invisible {
-            width: 54px;
-            height: 54px;
-            display: inline-block;
-            background-color: gray;
-            }
         
         .block:hover{
             background-color:#000;
@@ -60,17 +53,17 @@ function generateCSS(){
             transition: background-color 2s, color 2s;
             }
             
-        /* The slider itself */
-        .slider {
-        -webkit-appearance: none;  /* Override default CSS styles */
-        appearance: none;
-        width: 101%; /* Full-width */
-        height: 25px; /* Specified height */
-        background: #d3d3d3; /* Grey background */
-        outline: none; /* Remove outline */
-        opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-        -webkit-transition: .2s; /* 0.2 seconds transition on hover */
-        transition: opacity .2s;
+
+        .slider { Taken from w3schools https://www.w3schools.com/howto/howto_js_rangeslider.asp
+            -webkit-appearance: none;  /* Override default CSS styles */
+            appearance: none;
+            width: 101%; /* Full-width */
+            height: 25px; /* Specified height */
+            background: #777; /* Grey background */
+            outline: none; /* Remove outline */
+            opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+            -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+            transition: opacity .2s;
         }
         
         /* Mouse-over effects */
@@ -84,14 +77,14 @@ function generateCSS(){
         appearance: none;
         width: 25px; /* Set a specific slider handle width */
         height: 25px; /* Slider handle height */
-        background: #04AA6D; /* Green background */
+        background: #444; /* Green background */
         cursor: pointer; /* Cursor on hover */
         }
         
         .slider::-moz-range-thumb {
         width: 25px; /* Set a specific slider handle width */
         height: 25px; /* Slider handle height */
-        background: #04AA6D; /* Green background */
+        background: #444; /* Green background */
         cursor: pointer; /* Cursor on hover */
         }
     }`
@@ -107,30 +100,29 @@ function initializeGrid(blockAmount){
         // returns number with last two decimal places 
         return (Math.round((a/b)*100))/100;}
     function returnRemainderDec(a,b){
-        let c =  (Math.round((a%b)*100))/100;
-        console.log('remainder of decimal is '+c+' block size is '+blockAmount);
-        return c}
+        return (Math.round((a%b)*100))/100}
     const gridHeight = 625;
     const gridWidth = 960;
-    let squareSideLen = returnDecimal(gridHeight,blockAmount);
+    let squareSize = returnDecimal(gridHeight,blockAmount);
     // rowWidth subtracts remainder of blockLength that does not fit in a column from the total column size 
-    const rowWidth = gridWidth-returnRemainderDec(gridWidth,blockAmount);
-    let blockSizeHTMLAttr = squareSideLen+'px';
-    let rowsPerGrid = returnDecimal(gridHeight,squareSideLen);
-    let blocksPerRow = returnDecimal(gridWidth,squareSideLen);
+   // const rowWidth = gridWidth-returnRemainderDec(gridWidth,blockAmount);
+    //console.log('a block of '+squareSize+' with rows of '+rowWidth+' pixels can fit '+rowWidth/squareSize+' blocks. the remainder block is '+rowWidth%squareSize)
+    let blockSizeHTMLAttr = squareSize+'px';
+    let rowsPerGrid = returnDecimal(gridHeight,squareSize);
+    let blocksPerRow = returnDecimal(gridWidth,squareSize);
     for (let i=0; i <= rowsPerGrid; i++){
         let row = document.createElement('div');
         row.setAttribute('class', 'row');
-        row.setAttribute('style',`height: ${blockSizeHTMLAttr};
-                        ; width: ${rowWidth}px`);
+        row.setAttribute('style',`height: ${blockSizeHTMLAttr}`);
         etchASketchHolder.appendChild(row);
-        for (let j=0; j <= blocksPerRow; j++){
+        for (let j=1; j < blocksPerRow; j++){
             let block = document.createElement("div");  
             block.addEventListener("mouseover", function() {changeColor(block, blockSizeHTMLAttr)});
             block.setAttribute('class','block');
             block.setAttribute('style','height: '+blockSizeHTMLAttr+
                                ';width:'+ blockSizeHTMLAttr);
             row.appendChild(block);
+            //console.log(rowWidth +' estimated squares; '+ j +' actual squares')
         }
     }
 }    
