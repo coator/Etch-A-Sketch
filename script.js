@@ -5,6 +5,21 @@ function generateCSS(){
         body {
             background-color: #333;
         }
+        a:link {
+           color: BlueViolet;
+        }
+
+        a:visited {
+            color: RebeccaPurple;
+        }
+
+        a:hover {
+            color: DarkViolet;
+        }
+
+        a:active {
+            color: GreenYellow;
+        }
 
         #bodyHolder {
             display:flex;
@@ -33,7 +48,7 @@ function generateCSS(){
         }
 
         #etchASketchHolder{
-            background-color: #222
+            background-color: #222222;
         }
 
         .row {
@@ -54,7 +69,7 @@ function generateCSS(){
             }
             
 
-        .slider { Taken from w3schools https://www.w3schools.com/howto/howto_js_rangeslider.asp
+        .slider { 
             -webkit-appearance: none;  /* Override default CSS styles */
             appearance: none;
             width: 101%; /* Full-width */
@@ -87,6 +102,26 @@ function generateCSS(){
         background: #444; /* Green background */
         cursor: pointer; /* Cursor on hover */
         }
+
+        .btn {
+            border: 3px solid DimGrey;
+            background-color: #222;
+            color:#999;
+            text-align:center;
+            display:inline-block;
+            margin:4px 2px;
+            font-size:18px;
+            border-radius: 6px;
+            transition: .2s
+        }
+
+        .btn:hover{
+            background-color: DimGrey;
+            color: #222;
+            border: 3px dashed #222;
+            border-radius: 6px;
+        }
+
     }`
 
     let styleSheet = document.createElement("style")
@@ -96,14 +131,18 @@ function generateCSS(){
 
 
 function initializeGrid(blockAmount){
+    //Procedure used to clear out old block layout
+    const parent = document.getElementById('etchASketchHolder') 
+    while (parent.firstChild){
+        parent.removeChild(parent.firstChild);}
+    // start procedure to append new blocks
     function returnDecimal(a,b){
         // returns number with last two decimal places 
         return (Math.round((a/b)*100))/100;}
-    function returnRemainderDec(a,b){
-        return (Math.round((a%b)*100))/100}
     const gridHeight = 625;
     const gridWidth = 960;
     let squareSize = returnDecimal(gridHeight,blockAmount);
+    console.log(squareSize)
     // rowWidth subtracts remainder of blockLength that does not fit in a column from the total column size 
    // const rowWidth = gridWidth-returnRemainderDec(gridWidth,blockAmount);
     //console.log('a block of '+squareSize+' with rows of '+rowWidth+' pixels can fit '+rowWidth/squareSize+' blocks. the remainder block is '+rowWidth%squareSize)
@@ -128,14 +167,9 @@ function initializeGrid(blockAmount){
 }    
 
 function generateGrid(newValue){
+    console.log('confirm')
     let sizeObj = [5,15,25,35,48,55,65,75,85,95,100];
     let gridLayout = sizeObj[newValue];
-    console.log(gridLayout)
-    //Procedure used to clear out old block layout
-    const parent = document.getElementById('etchASketchHolder') 
-    while (parent.firstChild){
-        parent.removeChild(parent.firstChild);}
-    // start procedure to append new blocks
     initializeGrid(gridLayout)
 }
 
@@ -170,13 +204,44 @@ function insertSlideBar(divParent){ // sliderbar allows adjustment of the grid s
     values = {href:'' , id:'slideBarReset'}
     for (const key in values){
         slideBarReset.setAttribute(`${key}`,`${values[key]}`)}
-    slideBarReset.innerHTML='reset'
     divParent.appendChild(slideBarReset)
 
     let sliderVar = document.getElementById('blockSizeRange');
     slideBar.addEventListener('click', function() {
         generateGrid(sliderVar.value)
     })
+}
+
+function addButtons(){
+    const welcomeMsg = document.createElement('div');
+    welcomeMsg.innerText = 'Welcome to the EtchASketch!'
+    sideBarHolder.appendChild(welcomeMsg)
+
+    const resetBtn = document.createElement('button');
+    resetBtn.setAttribute('class','btn');
+resetBtn.textContent = 'Reset';
+    sideBarHolder.appendChild(resetBtn);
+    resetBtn.onclick = () => generateGrid(10)
+
+    const lineBreak = document.createElement('br');
+    sideBarHolder.appendChild(lineBreak);
+
+    function customGrid(){
+        let num = prompt('how many blocks per side? (numbers less than 10 tend to do funky things)');
+        num = Number(num)
+        if ( typeof(num) == 'number' && num <= 100 ){
+            console.log('y')
+            initializeGrid(num)}
+        else{
+            return}
+        }
+
+    const customBtn = document.createElement('button');
+    customBtn.setAttribute('class','btn');
+    customBtn.textContent = 'Custom';
+    sideBarHolder.appendChild(customBtn);
+    customBtn.onclick = () =>  customGrid();
+    return
 }
 
 
@@ -201,8 +266,9 @@ function createLayout(){ // generates bodyHolder (holds sidebar and rightBodyHol
     bodyHolder.appendChild(sideBarHolder)
     insertSlideBar(sideBarHolder)
     bodyHolder.appendChild(rightBodyHolder)
+    addButtons()
 }
 
 generateCSS();
 createLayout();
-initializeGrid(48)
+initializeGrid(100)
